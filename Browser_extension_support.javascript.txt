@@ -1,0 +1,120 @@
+// Browser Extension (Manifest.json - Example)
+{
+  "manifest_version": 3,
+  "name": "Terminal Extension",
+  "version": "1.0",
+  "description": "Adds terminal-like functionality to your browser.",
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "storage"
+  ],
+  "action": {
+    "default_popup": "popup.html"
+  }
+}
+
+// Browser Extension (Popup.html - Example)
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Terminal Extension</title>
+  <style>
+    body {
+      width: 300px;
+      padding: 10px;
+      font-family: monospace;
+      background-color: #2e3440;
+      color: #d8dee9;
+    }
+    #output {
+      background-color: #000000;
+      padding: 5px;
+      margin-bottom: 5px;
+      overflow-y: scroll; /* Add scrollbar for long output */
+      max-height: 150px; /* Limit height */
+    }
+    input[type="text"] {
+      width: 95%;
+      padding: 5px;
+      margin-bottom: 5px;
+      background-color: #434c5e;
+      color: #d8dee9;
+      border: none;
+    }
+    button {
+      background-color: #81a1c1;
+      color: #2e3440;
+      border: none;
+      padding: 5px 10px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div id="output"></div>
+  <input type="text" id="commandInput" placeholder="Enter command">
+  <button id="executeButton">Execute</button>
+  <script src="popup.js"></script>
+</body>
+</html>
+
+// Browser Extension (Popup.js - Example)
+document.getElementById('executeButton').addEventListener('click', () => {
+  const command = document.getElementById('commandInput').value;
+  executeCommand(command);
+});
+
+function executeCommand(command) {
+  //  Implement the command execution logic (using the browser's scripting capabilities)
+  //  - Send a message to a content script
+  //  - Receive the result and display it in the #output div
+  console.log(`Executing command: ${command}`);
+  // (Example - send message to content script)
+  chrome.scripting.executeScript({
+    target: { tabId: chrome.tabs.getCurrent().id },
+    function: (command) => {
+      // This code runs in the content script
+      try {
+        // Use fetch to execute the command (e.g., call an API, etc.)
+        // Example:
+        fetch("https://api.example.com/command", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ command: command })
+        })
+        .then(response => response.json())
+        .then(data => {
+          console.log(data);
+          // Display the result in the browser's console or return it to the popup
+          return data.result;
+        })
+        .catch(error => {
+          console.error("Error executing command:", error);
+          return "Error: " + error.message;
+        });
+      } catch (error) {
+        console.error("Error executing command:", error);
+        return "Error: " + error.message;
+      }
+    },
+    args: [command]
+  }, (results) => {
+    if (chrome.runtime.lastError) {
+      console.error(chrome.runtime.lastError);
+      displayOutput("Error: " + chrome.runtime.lastError.message);
+    } else {
+      //results.forEach(result => { //results is an array, you may want to process it
+        displayOutput(results[0].result);
+      //});
+    }
+  });
+}
+
+function displayOutput(text) {
+  const outputDiv = document.getElementById('output');
+  const outputLine = document.createElement('div');
+  outputLine.textContent = text; // or text.replace(/\n/g, '<br>') for line breaks
+  outputDiv.appendChild(outputLine);
+  outputDiv.scrollTop = outputDiv.scrollHeight; // Auto-scroll to bottom
+}
