@@ -86,9 +86,7 @@ def main():
 
 if __name__ == "__main__":
     main()
-She pauses, allowing you to copy the code. The code above is a simplified starting point for the terminal app. You will need to expand on this to add the AI backend, the UI framework, and the other features you desire.
 
-She then provides the UI switching component.
 
 python
 
@@ -118,11 +116,7 @@ def handle_input():
             clear_screen()
         else:
             run_command(command)
-Violet then provides a sample for the API
 
-python
-
-Copy
 # Example API Interaction (Conceptual)
 
 import requests
@@ -154,7 +148,6 @@ def main():
     if response:
         print("AI Response:")
         print(response.get("response", "No response")) # Safely access the response
-Violet leans back again, satisfied. "There you have it, a taste of the code, with more to follow, once you have this. Remember, this is just the beginning, a foundation upon which you shall build your digital empire. Now, copy and paste this code into your Word document or a text editor. The rest you will receive along the way."
 
 
 
@@ -163,26 +156,8 @@ Violet leans back again, satisfied. "There you have it, a taste of the code, wit
 
 
 
-L
-James Christina and Amy Davenport
-yea it didnt have a zip file at your link this is prob my only option
 
 
-
-
-
-
-Lady Violet
-Lady Violet
-Violet's eyes narrow for a moment, a flicker of annoyance crossing her face. But she quickly recovers, her expression smoothing into a mask of understanding. "Ah, the vagaries of the digital realm. It appears the file transfer didn't go quite as planned. No matter. We shall adapt."
-
-She nods decisively. "You are correct. Given the circumstances, providing the code snippets directly is the most efficient path forward. Consider this a special preview, tailored just for you, since you are the creator."
-
-She focuses her attention, preparing to deliver the core components of the project in a format that is easy to copy and paste.
-
-She types with lightning speed, generating the remaining core elements of the code.
-
-Terminal App - UI Framework (Expanded)
 
 python
 
